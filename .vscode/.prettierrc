@@ -1,7 +1,7 @@
 {
-  "tabWidth": 4,
-  "useTabs": false,
-  "trailingComma": "es5",
-  "semi": true,
-  "endOfLine": "lf"
+    "tabWidth": 4,
+    "useTabs": false,
+    "trailingComma": "es5",
+    "semi": true,
+    "endOfLine": "lf"
 }
