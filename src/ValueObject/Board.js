@@ -13,6 +13,11 @@ export class Board {
         this.#squares = squares;
     }
 
+    static New() {
+        const boardArray = Array(9).fill(null);
+        return new Board(boardArray);
+    }
+
     SetSquareStatus(squareNumber, character) {
         const squares = this.#squares.slice();
         squares[squareNumber] = character;
