@@ -1,9 +1,9 @@
 import React from "react";
-import { Square } from "./Square";
+import { SquareView } from "./SquareView";
 import { GameStatusView } from "./GameStatusView";
-import { GameRules } from "./GameRules";
+import { GameRules } from "../GameRules";
 
-export class Board extends React.Component {
+export class BoardView extends React.Component {
   #gameStatusView;
   #gameRules;
 
@@ -35,7 +35,7 @@ export class Board extends React.Component {
 
   renderSquare(squareNumber) {
     return (
-      <Square
+      <SquareView
         value={this.state.squares[squareNumber]}
         onClick={() => this.handleClick(squareNumber)}
       />
