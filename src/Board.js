@@ -1,18 +1,28 @@
 import React from "react";
 import { Square } from "./Square";
+import { TurnView } from "./TurnView";
 
 export class Board extends React.Component {
+  #turnView;
+
   constructor(props) {
     super(props);
+
+    this.#turnView = new TurnView();
+
     this.state = {
       squares: Array(9).fill(null),
+      xIsNext: true,
     }
   }
 
   handleClick(i) {
     const squares = this.state.squares.slice();
-    squares[i] = "X";
-    this.setState({ squares: squares });
+    squares[i] = this.#turnView.TurnCharacter(this.state.xIsNext);
+    this.setState({
+      squares: squares,
+      xIsNext: !this.state.xIsNext,
+    });
   }
 
   renderSquare(i) {
@@ -25,11 +35,9 @@ export class Board extends React.Component {
   }
 
   render() {
-    const status = "Next player: X";
-
     return (
       <div>
-        <div className="status">{status}</div>
+        <div className="status">{this.#turnView.StatusText(this.state.xIsNext)}</div>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
