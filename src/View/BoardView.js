@@ -1,34 +1,35 @@
 import React from "react";
 import { SquareView } from "./SquareView";
 import { GameStatusView } from "./GameStatusView";
-import { GameRules } from "../GameRules";
+import { Board } from "../ValueObject/Board";
 
 export class BoardView extends React.Component {
   #gameStatusView;
-  #gameRules;
 
   constructor(props) {
     super(props);
 
     this.#gameStatusView = new GameStatusView();
-    this.#gameRules = new GameRules();
 
+    const board = new Board(Array(9).fill(null));
     this.state = {
-      squares: Array(9).fill(null),
+      board: board,
       xIsNext: true,
     }
   }
 
   handleClick(squareNumber) {
-    const squares = this.state.squares.slice();
-
-    if (this.#gameRules.calculateWinner(squares) || squares[squareNumber]) {
+    const nowBoard = this.state.board;
+    if (nowBoard.Winner() || nowBoard.SquareStatus(squareNumber)) {
       return;
     }
 
-    squares[squareNumber] = this.#gameStatusView.TurnCharacter(this.state.xIsNext);
+    // TODO: squareクラスを作成してそこに移動したほうが良いかも
+    const character = this.#gameStatusView.TurnCharacter(this.state.xIsNext);
+    const nextBoard = nowBoard.SetSquareStatus(squareNumber, character);
+
     this.setState({
-      squares: squares,
+      board: nextBoard,
       xIsNext: !this.state.xIsNext,
     });
   }
@@ -36,14 +37,14 @@ export class BoardView extends React.Component {
   renderSquare(squareNumber) {
     return (
       <SquareView
-        value={this.state.squares[squareNumber]}
+        value={this.state.board.SquareStatus(squareNumber)}
         onClick={() => this.handleClick(squareNumber)}
       />
     );
   }
 
   render() {
-    const winner = this.#gameRules.calculateWinner(this.state.squares);
+    const winner = this.state.board.Winner();
     const status = this.#gameStatusView.StatusText(winner, this.state.xIsNext);
 
     return (
