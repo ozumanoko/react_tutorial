@@ -1,14 +1,17 @@
 import React from "react";
 import { Square } from "./Square";
-import { TurnView } from "./TurnView";
+import { GameStatusView } from "./GameStatusView";
+import { GameRules } from "./GameRules";
 
 export class Board extends React.Component {
-  #turnView;
+  #gameStatusView;
+  #gameRules;
 
   constructor(props) {
     super(props);
 
-    this.#turnView = new TurnView();
+    this.#gameStatusView = new GameStatusView();
+    this.#gameRules = new GameRules();
 
     this.state = {
       squares: Array(9).fill(null),
@@ -16,28 +19,36 @@ export class Board extends React.Component {
     }
   }
 
-  handleClick(i) {
+  handleClick(squareNumber) {
     const squares = this.state.squares.slice();
-    squares[i] = this.#turnView.TurnCharacter(this.state.xIsNext);
+
+    if (this.#gameRules.calculateWinner(squares) || squares[squareNumber]) {
+      return;
+    }
+
+    squares[squareNumber] = this.#gameStatusView.TurnCharacter(this.state.xIsNext);
     this.setState({
       squares: squares,
       xIsNext: !this.state.xIsNext,
     });
   }
 
-  renderSquare(i) {
+  renderSquare(squareNumber) {
     return (
       <Square
-        value={this.state.squares[i]}
-        onClick={() => this.handleClick(i)}
+        value={this.state.squares[squareNumber]}
+        onClick={() => this.handleClick(squareNumber)}
       />
     );
   }
 
   render() {
+    const winner = this.#gameRules.calculateWinner(this.state.squares);
+    const status = this.#gameStatusView.StatusText(winner, this.state.xIsNext);
+
     return (
       <div>
-        <div className="status">{this.#turnView.StatusText(this.state.xIsNext)}</div>
+        <div className="status">{status}</div>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
