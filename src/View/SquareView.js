@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Square(props) {
+export function SquareView(props) {
   return (
     <button
       className="square"

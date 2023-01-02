@@ -1,12 +1,12 @@
 import React from "react";
-import { Board } from "./Board";
+import { BoardView } from "./BoardView";
 
-export class Game extends React.Component {
+export class GameView extends React.Component {
   render() {
     return (
       <div className="game">
         <div className="game-board">
-          <Board />
+          <BoardView />
         </div>
         <div className="game-info">
           <div>{/* status */}</div>
