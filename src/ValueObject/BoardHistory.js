@@ -3,6 +3,10 @@ import { Board } from "./Board";
 export class BoardHistory {
     #history;
 
+    get value() {
+        return this.#history.slice();
+    }
+
     /**
      * コンストラクタ
      * @param {Array} history 
@@ -20,10 +24,25 @@ export class BoardHistory {
 
         return history;
     }
+    
+    Length(){
+        return this.#history.length;
+    }
 
-    Latest() {
-        const board = this.#history.slice(-1);
-        return board[0];
+    Rewind(stepNumber) {
+        const historyArray = this.#history.slice(0, stepNumber+1);
+        return new BoardHistory(historyArray);
+    }
+
+    BoardSnapShot(stepNumber) {
+        const history = this.#history.slice();
+        const board = history[stepNumber];
+        return board;
+    }
+
+    LatestBoard(){
+        const history = this.#history.slice(-1);
+        return history[0];
     }
 
     /**
