@@ -2,8 +2,15 @@ import React from "react";
 import { SquareView } from "./SquareView";
 
 export class BoardView extends React.Component {
-  #ROW_LENGTH = 3;
-  #COLUMN_LENGTH = 3;
+  #ROW_LENGTH;
+  #COLUMN_LENGTH;
+
+  constructor(props){
+    super(props);
+    const board = this.props.board;
+    this.#COLUMN_LENGTH = board.ColumnLength;
+    this.#ROW_LENGTH = board.RowLength;
+  }
 
   #RenderSquare(squareNumber) {
     const board = this.props.board;

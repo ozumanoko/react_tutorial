@@ -29,7 +29,7 @@ export class GameView extends React.Component {
 
     const character = this.#gameStatusView.TurnCharacter(this.state.xIsNext);
     const nextBoard = latestBoard.SetSquareStatus(squareNumber, character);
-    const newHistory = rewindHistory.Add(nextBoard);
+    const newHistory = rewindHistory.Add(nextBoard, squareNumber);
 
     this.setState({
       history: newHistory,
@@ -52,8 +52,11 @@ export class GameView extends React.Component {
    */
   #Moves(history) {
     const moves = history.value.map((step, move) => {
+      const latestSquare = step.latestSquare;
+      const column = latestSquare.column;
+      const row = latestSquare.row;
       const desc = move !== 0 ?
-        `Go to move # ${move}` :
+        `Go to move #${move} col:${column} row:${row}` :
         'Go to game start';
 
       return (

@@ -1,5 +1,15 @@
 export class Board {
+    #ROW_LENGTH = 3;
+    #COLUMN_LENGTH = 3;
     #squares;
+
+    get RowLength(){
+        return this.#ROW_LENGTH;
+    }
+
+    get ColumnLength(){
+        return this.#COLUMN_LENGTH;
+    }
 
     /**
      * コンストラクタ
@@ -16,6 +26,14 @@ export class Board {
     static New() {
         const boardArray = Array(9).fill(null);
         return new Board(boardArray);
+    }
+
+    Column(squareNumber) {
+        return Math.floor(squareNumber / this.#COLUMN_LENGTH);
+    }
+
+    Row(squareNumber) {
+        return squareNumber % this.#COLUMN_LENGTH;
     }
 
     SetSquareStatus(squareNumber, character) {

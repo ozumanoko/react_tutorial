@@ -18,19 +18,23 @@ export class BoardHistory {
     static New() {
         const board = Board.New();
         const historyArray = [{
-            board: board
+            board: board,
+            latestSquare: {
+                row: -1,
+                column: -1,
+            },
         }];
         const history = new BoardHistory(historyArray);
 
         return history;
     }
-    
-    Length(){
+
+    Length() {
         return this.#history.length;
     }
 
     Rewind(stepNumber) {
-        const historyArray = this.#history.slice(0, stepNumber+1);
+        const historyArray = this.#history.slice(0, stepNumber + 1);
         return new BoardHistory(historyArray);
     }
 
@@ -40,7 +44,7 @@ export class BoardHistory {
         return board;
     }
 
-    LatestBoard(){
+    LatestBoard() {
         const history = this.#history.slice(-1);
         return history[0];
     }
@@ -49,10 +53,16 @@ export class BoardHistory {
      * 追加
      * @param {Board} board 
      */
-    Add(board) {
+    Add(board, squareNumber) {
         const history = this.#history.slice();
         history.push(
-            { board: board }
+            { 
+                board: board,
+                latestSquare: {
+                    row: board.Row(squareNumber),
+                    column: board.Column(squareNumber),
+                },
+            }
         );
 
         return new BoardHistory(history);
