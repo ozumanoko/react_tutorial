@@ -61,7 +61,13 @@ export class GameView extends React.Component {
 
       return (
         <li key={move}>
-          <button onClick={() => this.JumpTo(move)}>{desc}</button>
+          {(() => {
+              return (
+                <button onClick={() => this.JumpTo(move)}>
+                  {(move === this.state.stepNumber) ? <strong>{desc}</strong> : desc}
+                </button>
+              )
+          })()}
         </li>
       );
     });
