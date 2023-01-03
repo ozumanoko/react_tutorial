@@ -2,36 +2,41 @@ import React from "react";
 import { SquareView } from "./SquareView";
 
 export class BoardView extends React.Component {
-  renderSquare(squareNumber) {
+  #ROW_LENGTH = 3;
+  #COLUMN_LENGTH = 3;
+
+  #RenderSquare(squareNumber) {
     const board = this.props.board;
     const squareStatus = board.SquareStatus(squareNumber);
     return (
       <SquareView
+        key={squareNumber}
         value={squareStatus}
         onClick={() => this.props.onClick(squareNumber)}
       />
     );
   }
 
+  #RenderColumn(colunmNumber){
+    return (
+      <div className="board-row" key={colunmNumber}>
+        {
+          Array(this.#ROW_LENGTH).fill(0).map((_, rowNumber) => {
+            return this.#RenderSquare(colunmNumber * 3 + rowNumber)
+          })
+        }
+      </div>
+    )
+  }
+
   render() {
     return (
       <div>
-        <div className="status"></div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {
+          Array(this.#COLUMN_LENGTH).fill(0).map((_, columnNumber) => {
+            return this.#RenderColumn(columnNumber);
+          })
+        }
       </div>
     );
   }
